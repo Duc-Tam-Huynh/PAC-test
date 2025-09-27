@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Dự báo P.A.C</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+            * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        }
+
+        body {
+        font-family: Arial, sans-serif;
+        background: #f8f9fa;
+        color: #333;
+        padding: 10px;
+        }
+
+        /* Tiêu đề */
+        h2 {
+        text-align: center;
+        margin-bottom: 20px;
+        color: #007bff;
+        }
+
+        /* Tabs */
+        .tab {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap; /* tự xuống dòng khi nhỏ */
+        margin-bottom: 20px;
+        gap: 10px;
+        }
+
+        .tab button {
+        padding: 10px 20px;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        background: #f1f1f1;
+        font-weight: bold;
+        border-radius: 5px;
+        transition: background 0.3s, color 0.3s;
+        }
+
+        .tab button.active {
+        background: #007bff;
+        color: white;
+        }
+
+        .tab button:hover {
+        background: #e0e0e0;
+        }
+
+        /* Nội dung tab */
+        .container {
+        max-width: 600px;
+        margin: 0 auto;
+        }
+
+        .tabcontent {
+        display: none;
+        background: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .tabcontent.active {
+        display: block;
+        animation: fadeIn 0.3s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+        }
+
+        /* Form */
+        form {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        }
+
+        label {
+        font-weight: bold;
+        margin-bottom: 1px;
+        }
+
+        input[type="text"],
+        input[type="number"] {
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        width: 100%;
+        font-size: 14px;
+        }
+
+        input[type="radio"] {
+        margin-right: 25px;
+
+        }
+
+        button[type="submit"] {
+        padding: 12px;
+        background: #007bff;
+        border: none;
+        border-radius: 6px;
+        color: #fff;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background 0.3s;
+        }
+
+        button[type="submit"]:hover {
+        background: #0056b3;
+        }
+
+        /* Kết quả */
+        .result {
+        margin-top: 15px;
+        padding: 10px;
+        background: #e9f5ff;
+        border-left: 4px solid #007bff;
+        border-radius: 6px;
+        font-weight: bold;
+        color: #004085;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+        body {
+            padding: 5px;
+        }
+
+        .tab {
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .tab button {
+            width: 100%;
+            max-width: 300px;
+        }
+
+        .container {
+            width: 100%;
+            padding: 0 10px;
+        }
+        }
+
+        /* Nhóm radio nằm ngang */
+        .radio-group {
+        display: flex;
+        gap: 20px; /* khoảng cách giữa Thủ Đức và Tân Hiệp */
+        align-items: center;
+        margin: 10px 0;
+        }
+
+        .radio-group label {
+        display: flex;
+        align-items: center;
+        gap: 5px; /* khoảng cách giữa nút tròn và chữ */
+        cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h2>DỰ BÁO P.A.C</h2>
+
+    <!-- Tabs -->
+    <div class="tab">
+        <button class="tablinks {% if active_tab=='td' or not active_tab %}active{% endif %}" onclick="openTab(event, 'td')">Thủ Đức</button>
+        <button class="tablinks {% if active_tab=='th' %}active{% endif %}" onclick="openTab(event, 'th')">Tân Hiệp</button>
+        <button class="tablinks {% if active_tab=='ec' %}active{% endif %}" onclick="openTab(event, 'ec')">EC=>Mặn</button>
+    </div>
+
+    <div class="container">
+        <!-- Tab Thủ Đức -->
+        <div id="td" class="tabcontent {% if active_tab=='td' or not active_tab %}active{% endif %}">
+            <form action="/predict_td" method="POST">
+                <label>Nhiệt độ:</label>
+                <input type="text" name="nhietDo" placeholder="°C" 
+                    value="{{ request.form.get('nhietDo', '') }}">
+
+                <label>pH:</label>
+                <input type="text" name="pH" placeholder="0-14" 
+                    value="{{ request.form.get('pH', '') }}">
+
+                <label>Độ đục:</label>
+                <input type="text" name="doDuc" placeholder="NTU" 
+                    value="{{ request.form.get('doDuc', '') }}">
+
+                <label>Độ màu:</label>
+                <input type="text" name="doMau" placeholder="Pt-Co" 
+                    value="{{ request.form.get('doMau', '') }}">
+
+                <label>Chất lơ lửng:</label>
+                <input type="text" name="chatLoLung" placeholder="mg/L" 
+                    value="{{ request.form.get('chatLoLung', '') }}">
+
+                <label>Độ dẫn:</label>
+                <input type="text" name="doDan" placeholder="µS/cm" 
+                    value="{{ request.form.get('doDan', '') }}">
+
+
+                <button type="submit">Dự Báo</button>
+            </form>
+            <div class="result">
+                P.A.C dự tính: {{ prediction_text_td }}
+            </div>
+        </div>
+
+        <!-- Tab Tân Hiệp -->
+        <div id="th" class="tabcontent {% if active_tab=='th' %}active{% endif %}">
+            <form action="/predict_th" method="POST">
+                <label>pH:</label>
+                <input type="text" name="pH_TH" placeholder="0-14"
+                        value="{{ request.form.get('pH_TH', '') }}">
+
+                <label>Độ đục:</label>
+                <input type="text" name="doDuc_TH" placeholder="NTU"
+                        value="{{ request.form.get('doDuc_TH', '') }}">
+
+                <label>Độ màu:</label>
+                <input type="text" name="doMau_TH" placeholder="Pt-Co"
+                        value="{{ request.form.get('doMau_TH', '') }}">
+
+                <label>Chất lơ lửng:</label>
+                <input type="text" name="chatLoLung_TH" placeholder="mg/L"
+                        value="{{ request.form.get('chatLoLung_TH', '') }}">
+
+                <label>Độ dẫn:</label>
+                <input type="text" name="doDan_TH" placeholder="µS/cm"
+                        value="{{ request.form.get('doDan_TH', '') }}">
+
+                <button type="submit">Dự Báo</button>
+            </form>
+            <div class="result">
+                P.A.C dự tính: {{ prediction_text_th }}
+            </div>
+        </div>
+
+        <!-- Tab EC=>Mặn -->
+        <div id="ec" class="tabcontent {% if active_tab=='ec' %}active{% endif %}">
+            <form action="/predict_ec" method="POST">
+                <label>Chọn nhà máy:</label><br>
+
+                <div class="radio-group">
+                <label>
+                    <input type="radio" name="option" value="thuduc" 
+                        {% if request.form.get('option') == 'thuduc' %}checked{% endif %}> 
+                    Thủ Đức
+                </label>
+                <label>
+                    <input type="radio" name="option" value="tanhiep" 
+                        {% if request.form.get('option') == 'tanhiep' %}checked{% endif %}> 
+                    Tân Hiệp
+                </label>
+                </div>
+
+
+                <label>Nhập EC:</label>
+                <input type="number" step="any" name="ec" placeholder="µS/cm">
+
+                <button type="submit">Tính</button>
+            </form>
+            <div class="result">
+                Kết quả: {{ result }}
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openTab(evt, tabName) {
+            let i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].classList.remove("active");
+            }
+            tablinks = document.getElementsByClassName("tablinks");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].classList.remove("active");
+            }
+            document.getElementById(tabName).classList.add("active");
+            evt.currentTarget.classList.add("active");
+        }
+    </script>
+</body>
+</html>
