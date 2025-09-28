@@ -2,6 +2,8 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Dự báo P.A.C</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <style>
@@ -139,14 +141,15 @@
         .tab {
             flex-direction: column;
             align-items: center;
-            gap: 200px; /* thêm khoảng cách giữa các tab */
+            gap: 20px; /* thêm khoảng cách giữa các tab */
         }
 
         .tab button {
             width: 100%;
             max-width: 350px; /* rộng hơn 300px vì iPhone 12 Pro Max đủ không gian */
             font-size: 16px;  /* chữ to vừa đủ đọc */
-            padding: 12px;    /* nút dễ bấm bằng ngón tay */
+            padding: 12px;
+            margin-top: 20px;    /* nút dễ bấm bằng ngón tay */
         }
 
         .container {
@@ -267,7 +270,8 @@
 
 
                 <label>Nhập EC:</label>
-                <input type="number" step="any" name="ec" placeholder="µS/cm">
+                <input type="number" step="any" name="ec" placeholder="µS/cm"
+                            value="{{ request.form.get('ec', '') }}">
 
                 <button type="submit">Tính</button>
             </form>
