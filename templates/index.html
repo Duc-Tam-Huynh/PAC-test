@@ -133,22 +133,25 @@
         /* Responsive */
         @media (max-width: 768px) {
         body {
-            padding: 5px;
+            padding: 8px; /* chỉnh từ 5->8 thêm chút paddind vì màn hình nhỏ*/
         }
 
         .tab {
             flex-direction: column;
             align-items: center;
+            gap: 10px; /* thêm khoảng cách giữa các tab */
         }
 
         .tab button {
             width: 100%;
-            max-width: 300px;
+            max-width: 350px; /* rộng hơn 300px vì iPhone 12 Pro Max đủ không gian */
+            font-size: 16px;  /* chữ to vừa đủ đọc */
+            padding: 12px;    /* nút dễ bấm bằng ngón tay */
         }
 
         .container {
             width: 100%;
-            padding: 0 10px;
+            padding: 0 10px; /* 10->12 tăng padding để nội dung thoáng */
         }
         }
 
