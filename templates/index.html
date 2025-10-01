@@ -196,27 +196,27 @@
         <div id="td" class="tabcontent {% if active_tab=='td' or not active_tab %}active{% endif %}">
             <form action="/predict_td" method="POST">
                 <label>Nhiệt độ:</label>
-                <input type="text" name="nhietDo" placeholder="°C" 
+                <input type="text" name="nhietDo" placeholder="°C" required
                     value="{{ request.form.get('nhietDo', '') }}">
 
                 <label>pH:</label>
-                <input type="text" name="pH" placeholder="0-14" 
+                <input type="text" name="pH" placeholder="0-14" required
                     value="{{ request.form.get('pH', '') }}">
 
                 <label>Độ đục:</label>
-                <input type="text" name="doDuc" placeholder="NTU" 
+                <input type="text" name="doDuc" placeholder="NTU" required
                     value="{{ request.form.get('doDuc', '') }}">
 
                 <label>Độ màu:</label>
-                <input type="text" name="doMau" placeholder="Pt-Co" 
+                <input type="text" name="doMau" placeholder="Pt-Co" required
                     value="{{ request.form.get('doMau', '') }}">
 
                 <label>Chất lơ lửng:</label>
-                <input type="text" name="chatLoLung" placeholder="mg/L" 
+                <input type="text" name="chatLoLung" placeholder="mg/L" required
                     value="{{ request.form.get('chatLoLung', '') }}">
 
                 <label>Độ dẫn:</label>
-                <input type="text" name="doDan" placeholder="µS/cm" 
+                <input type="text" name="doDan" placeholder="µS/cm" required
                     value="{{ request.form.get('doDan', '') }}">
 
 
@@ -231,23 +231,23 @@
         <div id="th" class="tabcontent {% if active_tab=='th' %}active{% endif %}">
             <form action="/predict_th" method="POST">
                 <label>pH:</label>
-                <input type="text" name="pH_TH" placeholder="0-14"
+                <input type="text" name="pH_TH" placeholder="0-14" required
                         value="{{ request.form.get('pH_TH', '') }}">
 
                 <label>Độ đục:</label>
-                <input type="text" name="doDuc_TH" placeholder="NTU"
+                <input type="text" name="doDuc_TH" placeholder="NTU" required
                         value="{{ request.form.get('doDuc_TH', '') }}">
 
                 <label>Độ màu:</label>
-                <input type="text" name="doMau_TH" placeholder="Pt-Co"
+                <input type="text" name="doMau_TH" placeholder="Pt-Co" required
                         value="{{ request.form.get('doMau_TH', '') }}">
 
                 <label>Chất lơ lửng:</label>
-                <input type="text" name="chatLoLung_TH" placeholder="mg/L"
+                <input type="text" name="chatLoLung_TH" placeholder="mg/L" required
                         value="{{ request.form.get('chatLoLung_TH', '') }}">
 
                 <label>Độ dẫn:</label>
-                <input type="text" name="doDan_TH" placeholder="µS/cm"
+                <input type="text" name="doDan_TH" placeholder="µS/cm" required
                         value="{{ request.form.get('doDan_TH', '') }}">
 
                 <button type="submit">Dự Báo</button>
@@ -277,7 +277,7 @@
 
 
                 <label>Nhập EC:</label>
-                <input type="number" step="any" name="ec" placeholder="µS/cm"
+                <input type="number" step="any" name="ec" placeholder="µS/cm" required
                             value="{{ request.form.get('ec', '') }}">
 
                 <button type="submit">Tính</button>
