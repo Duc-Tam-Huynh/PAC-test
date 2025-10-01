@@ -8,6 +8,9 @@ app = Flask(__name__)
 model_td = pickle.load(open('randomforest.pkl', 'rb'))       # Thủ Đức
 model_th = pickle.load(open('randomforestTH.pkl', 'rb'))     # Tân Hiệp
 
+model_ec_td = pickle.load(open('knn_model_td.pkl', 'rb'))
+model_ec_th = pickle.load(open('knn_model_th.pkl', 'rb'))
+
 
 @app.route('/')
 def home():
@@ -59,9 +62,9 @@ def predict_ec():
         option = request.form['option']
 
         if option == "thuduc":
-            result = ((-2e-6)*ec_value**3)+(0.0015*ec_value**2)-(0.0208*ec_value)+1.9075
+            result = model_ec_td.predict([[ec_value]])[0]
         elif option == "tanhiep":
-            result = (0.0002*ec_value*ec_value)+(0.0794*ec_value)+5.3813
+            result = model_ec_td.predict([[ec_value]])[0]
         else:
             result = "Chưa chọn nhà máy"
     except:
