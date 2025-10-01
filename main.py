@@ -64,7 +64,7 @@ def predict_ec():
         if option == "thuduc":
             result = model_ec_td.predict([[ec_value]])[0]
         elif option == "tanhiep":
-            result = model_ec_td.predict([[ec_value]])[0]
+            result = model_ec_th.predict([[ec_value]])[0]
         else:
             result = "Chưa chọn nhà máy"
     except:
