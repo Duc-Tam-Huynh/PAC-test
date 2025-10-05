@@ -265,7 +265,8 @@
                 <div class="radio-group">
                 <label>
                     <input type="radio" name="option" value="thuduc" 
-                        {% if request.form.get('option') == 'thuduc' %}checked{% endif %}> 
+                        {% if request.form.get('option', 'thuduc') == 'thuduc' %}checked{% endif %}>
+
                     Thủ Đức
                 </label>
                 <label>
